@@ -10,12 +10,13 @@
   (syntax-parse stx
     [(_ (~optional (~seq #:command-char command-char:expr)) p:expr)
      (quasisyntax/loc stx
-       (with-output-to-string
-         (lambda ()
-           (output (include/text #,@(if (attribute command-char)
-                                      (list #'#:command-char #'command-char)
-                                      empty)
-                                 p)))))]))
+       (let ([result (include/text #,@(if (attribute command-char)
+                                             (list #'#:command-char #'command-char)
+                                             empty)
+                                      p)])
+         (if (bytes? result) 
+             result 
+             (with-output-to-string (λ () (output result))))))]))
 
 (define-syntax include-template/xexpr
   (syntax-rules ()
