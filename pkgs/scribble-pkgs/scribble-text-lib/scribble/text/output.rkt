@@ -223,7 +223,7 @@
       [else
        (output-string
         (cond [(string?  x) x]
-              [(bytes?   x) (bytes->string/utf-8 x)]
+              [(bytes?   x) x]
               [(symbol?  x) (symbol->string      x)]
               [(path?    x) (path->string        x)]
               [(keyword? x) (keyword->string     x)]
